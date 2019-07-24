@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Firebase Todo List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+    <script>
+      // Add the Firebase configuration code here
+      var config = {
+        apiKey: "AIzaSyA8lQjdnmzG4kxYIh0k--lImEHWAWbcAa0",
+        authDomain: "november-fundamentals-2017.firebaseapp.com",
+        databaseURL: "https://november-fundamentals-2017.firebaseio.com",
+        projectId: "november-fundamentals-2017",
+        storageBucket: "november-fundamentals-2017.appspot.com",
+        messagingSenderId: "554740032276"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(config);
+
+      // Connect to the todos object in your Firebase Project
+      var todoList = firebase.database().ref('todos/');
+
+      // Retrieve all the todos from Firebase and add them to the website
+      todoList.on('child_added', function(data) {
+        renderTodo(data)
+      })
+
+      todoList.on('child_changed', function(data) {
+        renderTodo(data)
+      });
+
+      const renderTodo = function(data) {
+        const todoId = data.key;
+        const todo = data.val();
+
+        if(todo.completed) {
+          $('#complete-tasks').prepend(`
+            <div>
+              ${todo.task}
+              <button id="${todoId}" class="btn btn-success" data-completed='${todo.completed}'>Completed</button>
+            </div>
+          `);
+        } else {
+          $('#incomplete-tasks').prepend(`
+            <div>
+              ${todo.task}
+              <button id="${todoId}" class="btn btn-danger" data-completed='${todo.completed}'>NOT Completed</button>
+            </div>
+          `);
+        }
+      }
+
+      $(document).ready(function() {
+        // Capture the data when the form submits
+        $('form#task-form').submit(function(event){
+          event.preventDefault();
+
+          // Get the value from the form input
+          const task = $('#body').val()
+
+          // Backend: Creates the todo task on Firebase
+          todoList.push({ task: task, completed: false });
+
+          // clears the form input
+          $('#body').val('')
+        });
+
+        $('#tasks').on('click', 'button', function() {
+          const todoId = $(this).attr('id')
+          const completed = $(this).data('completed')
+
+          // Frontend: Removes from the screen
+          $(`#${todoId}`).parent().fadeOut().remove()
+
+          // Backend: Update the individual todo task
+          firebase
+            .database()
+            .ref()
+            .child('todos')
+            .child(todoId)
+            .update({"completed": !completed})
+        });
+      })
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Firebase Todo</h1>
+
+      <form id="task-form">
+        <div class="form-group">
+          <label for="name">Task</label>
+          <input type="text" id="body" class="form-control">
+        </div>
+        <input type="submit" value="Send Message" class="btn btn-primary">
+      </form>
+
+      <hr>
+
+      <div id="tasks">
+        <h2>Pending Tasks</h2>
+        <div id="incomplete-tasks">
+          <!-- We will be listing all of our messages in here -->
+        </div>
+
+        <h2>Complete Tasks</h2>
+        <div id="complete-tasks">
+          <!-- We will be listing all of our messages in here -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

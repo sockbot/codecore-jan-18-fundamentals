@@ -1,0 +1,19 @@
+* {
+  /* select all */
+}
+
+ul li {
+  /* selects ALL li descendants in an ul (including indirect descendants) */
+}
+
+ul#homework > li {
+  /* select only a direct li descendant of a ul with id #homework */
+}
+
+img, a {
+  /* select all image tags AND anchor tags i.e. select multiple tags */
+}
+
+#reset-button, #publish-buttton {
+  /* select two specific ids */
+}

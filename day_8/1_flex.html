@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Flex!!!</title>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script> -->
+    <style media="screen">
+      .container {
+        padding: 10px;
+        background-color: teal;
+        border: thick solid black;
+        border-radius: 5px;
+        display: flex;
+        /* justify-content controls horizontal alignment */
+        /* justify-content: flex-end; */
+        justify-content: space-around;
+        height: 500px;
+        /* align-items controls vertical alignment */
+        align-items: center;
+        flex-direction: row-reverse;
+      }
+      /* does not require jquery */
+      .item:nth-child(4) {
+        background-color: gold;
+      }
+      .item {
+        width: 100px;
+        height: 100px;
+        background-color: firebrick;
+        border-radius: inherit;
+        margin: 10px;
+        /* display: inline-block; */
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      #item1 {
+        align-self: flex-end;
+      }
+      #item2 {
+        align-self: center
+      }
+      #item3 {
+        align-self: flex-start;
+      }
+      #item5 {
+        align-self: flex-end;
+        order: 1;
+      }
+      #item6 {
+        align-self: center;
+        order: 0;
+        background-color: pink;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id='item1' class="item">1</div>
+      <div id='item2' class="item">2</div>
+      <div id='item3' class="item">3</div>
+      <div class="item">4</div>
+      <div id='item5' class="item">5</div>
+      <div id='item6' class="item">6</div>
+    </div>
+  </body>
+</html>

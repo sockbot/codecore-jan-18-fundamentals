@@ -1,0 +1,16 @@
+body {
+  margin: 0px;
+  background-image: url(https://images.fineartamerica.com/images-medium-large-5/long-straight-road-australia-outback-colin-and-linda-mckie.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+p {
+  font-family: sans-serif;
+  font-size: 36px;
+  color: red;
+  background-color: rgba(255,0,0,0.5);
+  border: thick black line;
+  margin: 0px;
+  padding-bottom: 36px;
+}

@@ -1,0 +1,24 @@
+h1 {
+  font-family: sans-serif;
+}
+
+h2 {
+  font-family: sans-serif;
+}
+
+li {
+  list-style-type: square;
+  font-family: monospace;
+}
+
+img {
+  border-radius: 50%;
+}
+
+p {
+  font-family: monospace;
+}
+
+body {
+  width: 80%;
+}

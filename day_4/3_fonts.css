@@ -1,0 +1,42 @@
+/* css rules */
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+h1 {
+  /* property: value */
+  color: orange;
+  background-color: blue;
+  /* RGB: red, green, blue */
+  color: rgb(255, 255, 255); /* white */
+  color: rgb(0, 0, 0); /* black */
+  background-color: rgba(255, 0, 0, 0.5); /* red with 50% alpha channel */
+  color: #FF0000; /* same as color: red or color: rgb(255, 0, 0); */
+  color: #CCCCCC; /* same as color: #CCC */
+  font-family: sans-serif;
+  font-family: "Impact", sans-serif; /* set the fallback order */
+  background-image: url(1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg);
+}
+h2 {
+  margin: 50px;
+}
+p {
+  color: blue;
+  background-color: orange;
+  font-family: serif;
+  font-family: 'Orbitron', sans-serif;
+  /* font-size: 50px; */
+  /* font-size: 60pt; */
+  font-size: 1.5em; /* 1.5x of the previous font-size declaration */
+  font-style: italic;
+  width: 100vw;
+  border: thin red solid;
+}
+img {
+  /* width: 300px;
+  max-height: 500px; */
+  /* width: 100%; /* 100% of browswer window, with gutter */
+  /* width: 100vw; /* 100% of viewport width */
+  max-height: 200px;
+  margin: 10px;
+}
+body {
+  margin: 0;
+}

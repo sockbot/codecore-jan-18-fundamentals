@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Firebase Todo List</title>
+  <style media="screen">
+    .listItem {
+      margin-bottom: 10px;
+    }
+
+    .card-body {
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script> -->
+
+  <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBjE5x0jgWaH7hCtCnQJBi9FKjHInWSgt4",
+      authDomain: "todo-list-jan-2018.firebaseapp.com",
+      databaseURL: "https://todo-list-jan-2018.firebaseio.com",
+      projectId: "todo-list-jan-2018",
+      storageBucket: "todo-list-jan-2018.appspot.com",
+      messagingSenderId: "871394214349"
+    };
+    firebase.initializeApp(config);
+
+    const todoList = firebase.database().ref('todos/');
+
+    todoList.on('child_added', function(data) {
+      const todoId = data.key;
+      const todoTaskObj = data.val();
+      if (todoTaskObj.completed) {
+        $('#complete-tasks').append(
+          `
+        <div class='card listItem' id='task-${todoId}'>
+          <div class='card-body' '>${todoTaskObj.task} <button class="btn btn-success" id="${todoId}">Mark Incomplete</button></div>
+        </div>
+        `
+        );
+      } else {
+        $('#incomplete-tasks').append(
+          `
+        <div class='card listItem' id='task-${todoId}'>
+          <div class='card-body'>${todoTaskObj.task} <button class="btn btn-danger" id="${todoId}">Mark Complete</button></div>
+        </div>
+        `
+        );
+      }
+      $(`.btn-success#${todoId}`).on('click', function(event) {
+        console.log('Mark Incomplete');
+        firebase.database().ref(`todos/${todoId}`).update({completed: false});
+      });
+
+      $(`.btn-danger#${todoId}`).on('click', function(event) {
+        console.log('Mark Complete');
+        firebase.database().ref(`todos/${todoId}`).update({completed: true});
+      });
+    });
+
+    todoList.on('child_removed', function(data) {
+
+    });
+
+    todoList.on('child_changed', function(data) {
+      console.log('something changed');
+      const todoId = data.key;
+      const todoTaskObj = data.val();
+      if (todoTaskObj.completed) {
+        $('#complete-tasks').append(
+          `
+        <div class='card listItem' id='task-${todoId}'>
+          <div class='card-body' '>${todoTaskObj.task} <button class="btn btn-success" id="${todoId}">Mark Incomplete</button></div>
+        </div>
+        `
+        );
+        $(`#incomplete-tasks #task-${todoId}`).remove();
+      } else {
+        $('#incomplete-tasks').append(
+          `
+        <div class='card listItem' id='task-${todoId}'>
+          <div class='card-body'>${todoTaskObj.task} <button class="btn btn-danger" id="${todoId}">Mark Complete</button></div>
+        </div>
+        `
+        );
+        $(`#complete-tasks #task-${todoId}`).remove();
+      }
+      $(`.btn-success#${todoId}`).on('click', function(event) {
+        console.log('Mark Incomplete');
+        firebase.database().ref(`todos/${todoId}`).update({completed: !todoTaskObj.completed});
+      });
+
+      $(`.btn-danger#${todoId}`).on('click', function(event) {
+        console.log('Mark Complete');
+        firebase.database().ref(`todos/${todoId}`).update({completed: !todoTaskObj.completed});
+      });
+    });
+
+    $(document).ready(function() {
+      $('#task-form').submit(function(event) {
+        event.preventDefault();
+        // alert('#task-form submit');
+        const newTask = $('input#body').val();
+        if (newTask != ''){
+          todoList.push({task: `${newTask}`, completed: false})
+          $('input#body').val('');
+        }
+      });
+
+    });
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Firebase Todo</h1>
+
+    <form id="task-form">
+      <div class="form-group">
+        <label for="name">Task</label>
+        <input type="text" id="body" class="form-control">
+      </div>
+      <input type="submit" value="Send Message" class="btn btn-primary">
+    </form>
+
+    <hr>
+
+    <div id="tasks">
+      <h2>Pending Tasks</h2>
+      <div id="incomplete-tasks">
+        <!-- We will be listing all of our messages in here -->
+      </div>
+
+      <h2>Complete Tasks</h2>
+      <div id="complete-tasks">
+        <!-- We will be listing all of our messages in here -->
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

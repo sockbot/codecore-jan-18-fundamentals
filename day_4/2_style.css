@@ -1,0 +1,16 @@
+/* css rules */
+h1 {
+  /* property: value */
+  color: orange;
+  background-color: blue;
+  /* RGB: red, green, blue */
+  color: rgb(255, 255, 255); /* white */
+  color: rgb(0, 0, 0); /* black */
+  background-color: rgba(255, 0, 0, 0.5); /* red with 50% alpha channel */
+  color: #FF0000; /* same as color: red or color: rgb(255, 0, 0); */
+  color: #CCCCCC; /* same as color: #CCC */
+}
+p {
+  color: blue;
+  background-color: orange;
+}
